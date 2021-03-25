@@ -1,0 +1,52 @@
+# Basic Linux Node Control
+'''This node controls the Linux OS and underlying hardware.'''
+import subprocess
+def shutdown():
+  returncode = subprocess.call("sudo shutdown -h now", shell=True)
+def reboot():
+  returncode = subprocess.call("sudo reboot now", shell=True)
+def mute_audio():
+  set_volume(0)
+def unmute_audio():
+  set_volume(100)
+def quiet_audio():
+  set_volume(40)
+def set_volume(vol):
+  returncode = subprocess.call("sudo amixer -c 0 set Speaker playback "+str(vol)+"%", shell=True)
+# Local actions this Node provides
+def local_action_TurnOff(arg = None):
+  """{"title":"Turn off","desc":"Turns this computer off.","group":"Power","caution":"Ensure hardware is in a state to be turned off."}"""
+  print 'Action TurnOff requested'
+  shutdown()
+def local_action_Reboot(arg = None):
+  """{"title":"Reboot","desc":"Turns this computer off.","group":"Power","caution":"Ensure hardware is in a state to be rebooted."}"""
+  print 'Action Reboot requested'
+  reboot()
+def local_action_mute(arg = None):
+  """{"title":"Mute","desc":"Mute this computer.","group":"Volume","order":0}"""
+  print 'Action Mute requested'
+  mute_audio()
+def local_action_unmute(arg = None):
+  """{"title":"Unmute","desc":"Un-mute this computer.","group":"Volume","order":1}"""
+  print 'Action Unmute requested'
+  unmute_audio()
+def local_action_quiet(arg = None):
+  """{"title":"Quiet","desc":"Reduce the sound to 40%.","group":"Volume","order":2}"""
+  print 'Action Quiet requested'
+  quiet_audio()
+def local_action_SetVolume(arg = None):
+  """{"title":"Set volume","desc":"Set volume.","schema":{"title":"Level","type":"integer","required":"true"},"group":"Volume","order":3}"""
+  print 'Action SetVolume requested - '+str(arg)
+  set_volume(arg)
+# Local events this Node provides
+local_event_Triggered = LocalEvent('{"title":"Sensor is triggered","desc":"When this sensor is triggered.","group":"General","order":1}')
+# local_event_Triggered.emit(arg)
+# Remote events this Node requires
+def remote_event_SensorTriggered(arg = None):
+  """{"title":"Sensor triggered","desc":"Occurs when the sensor is triggered.","group":"Sensing","order":5}"""
+  print 'Remote event SensorTriggered arrived'
+# Parameters used by this Node
+param_ipAddress = Parameter('{"desc":"The IP address to connect to.","schema":{"type":"string"},"value":"192.168.100.1","title":"IP address","order":0}')
+def main(arg = None):
+  # Start your script here.
+  print 'Nodel script for Linux host started.'

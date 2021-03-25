@@ -1,0 +1,15 @@
+{
+  "name": "tse-winntp",
+  "version": "1.0.1",
+  "author": "Puppet TSE Team",
+  "summary": "Manage NTP on Windows servers.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/puppetlabs/tse-module-winntp",
+  "project_page": "https://github.com/puppetlabs/tse-module-winntp",
+  "issues_url": "https://github.com/puppetlabs/tse-module-winntp/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.0.0"},
+    {"name":"puppetlabs-registry","version_requirement":">= 1.1.3"}
+  ],
+  "data_provider": null
+}

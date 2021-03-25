@@ -1,0 +1,21 @@
+---
+version: 5
+defaults:
+  datadir: data
+  data_hash: yaml_data
+hierarchy:
+  - name: "Other YAML Hierarchy levels"
+    paths:
+      - "%{::kiosk.institution}/%{::kiosk.branch}/%{::kiosk.gallery}/%{::kiosk.screen}.yaml"
+      - "%{::kiosk.institution}/%{::kiosk.branch}/%{::kiosk.gallery}/common.yaml"
+      - "%{::kiosk.institution}/%{::kiosk.branch}/common.yaml"
+      - "%{::kiosk.institution}/common.yaml"
+      - "common.yaml"
+#  - name: "Secrets"
+#    lookup_key: eyaml_lookup_key
+#    options:
+#      pkcs7_private_key: 'C:/ProgramData/PuppetLabs/puppet/eyaml/keys/private_key.pkcs7.pem'
+#      pkcs7_public_key: 'C:/ProgramData/PuppetLabs/puppet/eyaml/keys/public_key.pkcs7.pem'
+#    paths:
+#      - "%{::kiosk.institution}/%{::kiosk.branch}/common.eyaml"
+#      - "%{::kiosk.institution}/common.eyaml"

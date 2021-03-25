@@ -1,0 +1,5 @@
+---
+classes:
+  - nodel
+
+nodel::nodel_jar: "https://github.com/museumsvictoria/nodel/releases/download/v2.2.1-release438/nodelhost-release-2.2.1-rev438.jar"

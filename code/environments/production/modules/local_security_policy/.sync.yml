@@ -1,0 +1,81 @@
+---
+spec/spec_helper.rb:
+  mock_with: ':rspec'
+  hiera_config_ruby: File.expand_path(File.join(__FILE__, '..', 'fixtures', 'hieradata', 'hiera.yaml'))
+  spec_overrides:
+    - |
+      def set_hieradata(hieradata)
+        RSpec.configure { |c| c.default_facts['custom_hiera'] = hieradata }
+      end
+      RSpec.configure do |c|
+        c.before :each do
+          if defined?(hieradata)
+            set_hieradata(hieradata.tr(':', '_'))
+          elsif defined?(class_name)
+            set_hieradata(class_name.tr(':', '_'))
+          end
+        end
+      end
+Gemfile:
+  optional:
+    ':development':
+      - gem: pry-byebug
+    ':acceptance':
+      - gem: beaker
+      - gem: beaker-rspec
+      - gem: beaker-windows
+      - gem: beaker-puppet_install_helper
+      - gem: beaker-module_install_helper
+      - gem: beaker-vagrant
+      - gem: vagrant-wrapper
+      - gem: net-ssh
+        version: '~> 5.2'
+.rubocop.yml:
+  profiles:
+    strict:
+      configs:
+        AllCops:
+          TargetRubyVersion: '2.4'
+        Style/AccessorMethodName:
+          Description: 'Do not prefix method names iwth `set_` or `get_`. Need to ignore non-ruby class files'
+          Exclude:
+            - 'spec/**/*'
+        Style/HashSyntax:
+          Description: 'Use the new Ruby 1.9 hash syntax. Rspec-puppet resources will fail this cop.'
+          Exclude:
+            - 'spec/classes/*'
+        RSpec/BeforeAfterAll:
+          Description: 'Beware of using after(:all) as it may cause state to leak between tests. A necessary evil in acceptance testing.'
+          Exclude:
+            - 'spec/acceptance/**/*.rb'
+            - 'spec/spec_helper.rb'
+            - 'spec/spec_helper_acceptance.rb'
+.gitlab-ci.yml:
+  custom:
+    ruby_versions:
+      2.5.7:
+        tags:
+          - docker
+      2.4.5:
+        tags:
+          - docker
+    # Due to bugs in the PDK template, the following:
+    # beaker:
+    #   variables: {}
+    #   tags:
+    #     - beaker
+    # needs to be written like this:
+    custom_stages:
+      - beaker
+    custom_jobs:
+      beaker:
+        stage: beaker
+        variables:
+          DOCKER_DRIVER: 'overlay2'
+        services:
+          - docker:dind
+        script:
+          - bundle install --with system_tests
+          - bundle exec rake beaker
+        tags:
+          - beaker
