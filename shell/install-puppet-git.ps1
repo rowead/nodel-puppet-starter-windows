@@ -12,6 +12,8 @@ If( -not (Test-Path -Path $lockfile) ) {
     echo 'Setting Up C:/\ProgramData/\PuppetLabs'
     rmdir 'C:/\ProgramData/\PuppetLabs' -Force -Recurse
 
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    
     git clone 'https://github.com/rowead/nodel-puppet-starter-windows.git' 'C:/\ProgramData/\PuppetLabs'
 
     Write-Host "Writing lockfile to $lockfile"
