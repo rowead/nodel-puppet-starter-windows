@@ -16,6 +16,7 @@ If( -not (Test-Path -Path $lockfile) ) {
     
     git clone 'https://github.com/rowead/nodel-puppet-starter-windows.git' 'C:/\ProgramData/\PuppetLabs'
 
+    New-item -Path "C:\kiosk\install-method-git"
     Write-Host "Writing lockfile to $lockfile"
     New-item -ItemType "directory" -Path "C:\kiosk\locks"
     New-item -Path $lockfile

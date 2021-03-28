@@ -31,10 +31,10 @@ class kiosk(
     require => File["$kiosk_root/scripts"]
   }
 
-  if ($virtual == 'virtualbox') {
-    $puppet_cron = absent
-  } else {
+  if (file_exists('C:/kiosk/install-method-git')) {
     $puppet_cron = present
+  } else {
+    $puppet_cron = absent
   }
 
   scheduled_task { "puppet run":
@@ -79,6 +79,11 @@ class kiosk(
   package { 'nodejs':
     provider => 'chocolatey',
     ensure   => '15.11.0',
+  }
+
+  package { 'awscli':
+    provider => 'chocolatey',
+    ensure   => '2.1.29',
   }
 
   package { 'vscode':
