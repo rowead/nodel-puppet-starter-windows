@@ -58,6 +58,10 @@ class kiosk::users {
           content  => file('nodel/launch-nodel.bat'),
           require => Class['nodel']
         }
+        reboot { 'after first login':
+          subscribe => File["C:/Users/${key}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/launch-nodel.bat"],
+          apply     => finished
+        }
       }
 
     }
