@@ -4,7 +4,7 @@ classes:
   - kiosk::users
   - kiosk::security
   - nodel
-  - timezone_win
+#  - timezone_win
   - winntp
 
 kiosk::deployer_git_auth: ""
@@ -23,7 +23,7 @@ nodel::nodel_jar: "https://github.com/museumsvictoria/nodel/releases/download/v2
 nodel::managed_config: false
 
 # For a list of timezones, see https://ss64.com/nt/timezones.html
-timezone_win::timezone: 'W. Australia Standard Time'
+#timezone_win::timezone: 'W. Australia Standard Time'
 
 winntp::servers:
   - 0.au.pool.ntp.org
